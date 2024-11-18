@@ -1,0 +1,18 @@
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+
+# Key and data
+key = get_random_bytes(16)  # 16-byte key for AES-128
+data = b"Secret message"
+
+# Encrypt
+cipher = AES.new(key, AES.MODE_CBC)
+ciphertext = cipher.encrypt(pad(data, AES.block_size))
+
+# Decrypt
+decipher = AES.new(key, AES.MODE_CBC, iv=cipher.iv)
+decrypted = unpad(decipher.decrypt(ciphertext), AES.block_size)
+
+print(f"Encrypted: {ciphertext}")
+print(f"Decrypted: {decrypted.decode()}")
